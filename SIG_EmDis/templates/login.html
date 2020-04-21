@@ -48,6 +48,15 @@
                     <div class="form-group">
                         {{ form.password(class="form-control form-control-lg", placeholder="Password") }}
                     </div>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
                     <div class="form-group">
                         <label class="custom-control custom-checkbox">
                             {{ form.remember_me(class="custom-control-input") }}
