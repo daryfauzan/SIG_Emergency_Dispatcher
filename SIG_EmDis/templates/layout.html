@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
+    <title>EmDis | {{ title }}</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
     <link href="{{ url_for('static', filename='vendor/fonts/circular-std/style.css') }}" rel="stylesheet">
@@ -14,7 +14,7 @@
 
     <style>
         .pb-icon{
-            padding-bottom: 2px;
+            padding-bottom: 2.3px;
         }
     </style>
     {% block head %}{% endblock %}
@@ -36,11 +36,16 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Dispatcher Dashboard</h2>
+                            <h2 class="pageheader-title">{{ title }}</h2>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item active">Dashboard</li>
+                                        {% if title=='Dashboard' %}
+                                            <li class="breadcrumb-item active">Dashboard</li>
+                                        {% else %}
+                                            <li class="breadcrumb-item">Dashboard</li>
+                                            <li class="breadcrumb-item active">{{ title }}</li>
+                                        {% endif %}
                                     </ol>
                                 </nav>
                             </div>
@@ -49,7 +54,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        {% block content %}{% endblock   %}
+                        {% block content %}{% endblock %}
                     </div>
                 </div>
             </div>

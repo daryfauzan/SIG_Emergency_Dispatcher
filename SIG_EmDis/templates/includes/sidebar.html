@@ -14,10 +14,13 @@
                                 Menu
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#" ><i class="fas fa-fw fa-user-circle pb-icon"></i>Dashboard</a>
+                                <a class="nav-link {{active_link['dashboard']}}" href="{{ url_for('dashboard') }}" ><i class="fas fa-fw fa-user-circle pb-icon"></i>Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" ><i class="fas fa-fw fa-list-ul pb-icon"></i>Call List</a>
+                                <a class="nav-link {{active_link['call_list']}}" href="{{ url_for('call_list') }}" ><i class="fas fa-fw fa-list-ul pb-icon"></i>Call List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{active_link['hospital_list']}}" href="{{ url_for('hospital_list') }}" ><i class="fas fa-fw fa-hospital-alt pb-icon"></i>Hospital List</a>
                             </li>
                         </ul>
                     </div>

@@ -4,6 +4,12 @@ from SIG_EmDis import app, db
 from SIG_EmDis.forms import LoginForm
 from SIG_EmDis.models import Dispatcher
 
+
+def activate_link(link):
+    page = {'dashboard':None, 'call_list':None, 'hospital_list':None}
+    page[link] = 'active'
+    return page
+
 @app.route('/', methods=["POST","GET"])
 @app.route('/login', methods=["POST","GET"])
 def login():
@@ -24,13 +30,23 @@ def login():
 
 @app.route("/logout")
 def logout():
+    user = Dispatcher.query.filter_by(email=current_user.email)
+    user.isOnline = False
+    db.session.commit()
     logout_user()
     return redirect(url_for('login'))
 
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    user = Dispatcher.query.filter_by(email=current_user.email)
-    user.isOnline = False
-    db.session.commit()
-    return render_template('dashboard.html')
+    return render_template('dashboard.html', title='Dashboard', active_link = activate_link('dashboard'))
+
+@app.route('/call-list')
+@login_required
+def call_list():
+    return render_template('call_list.html', title='Call List', active_link = activate_link('call_list'))
+
+@app.route('/hospital-list')
+@login_required
+def hospital_list():
+    return render_template('hospital_list.html', title='Hospital List', active_link = activate_link('hospital_list'))
