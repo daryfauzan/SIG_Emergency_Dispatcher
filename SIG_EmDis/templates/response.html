@@ -1,0 +1,157 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin=""></script>
+
+<style>
+    #mapid {
+        height: 480px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Caller Information Start -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title mb-0">Caller Information</h3>
+    </div>
+    <div class="card-body">
+        <div id="response-info">
+            <div class="row no-gutters mb-3">
+                <div class="col-2">
+                    Call ID
+                </div>
+                <div class="col-1">
+                    :
+                </div>
+                <div class="col-12 col-lg-3">
+                    42544
+                </div>
+            </div>
+            <div class="row no-gutters mb-3">
+                <div class="col-2">
+                    Phone Number
+                </div>
+                <div class="col-1">
+                    :
+                </div>
+                <div class="col-12 col-lg-3">
+                    +62845435481
+                </div>
+            </div>
+            <div class="row no-gutters mb-3">
+                <div class="col-2">
+                    Coordinates
+                </div>
+                <div class="col-1">
+                    :
+                </div>
+                <div class="col-12 col-lg-3">
+                    21.121, -56.28
+                </div>
+            </div>
+            <div class="row no-gutters mb-3">
+                <div class="col-2">
+                    Additional Notes
+                </div>
+                <div class="col-1">
+                    :
+                </div>
+                <div class="col-12 col-lg-3">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque, sapiente fugit qui ratione non
+                    aliquam maxime esse iure sequi quo dolores at exercitationem nihil! Expedita ea vero necessitatibus
+                    tempore laudantium ducimus iusto, ut hic dicta! Veniam illo soluta asperiores earum molestias hic
+                    autem nulla! Pariatur tenetur odit explicabo labore possimus!
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Caller Information End -->
+
+<!-- Maps Start -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title mb-0">Maps</h3>
+    </div>
+    <div class="card-body">
+        <div id="mapid">
+
+        </div>
+    </div>
+</div>
+<!-- Maps End -->
+
+<!-- Nearby Hospital Start -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title mb-0">Nearby Hospital</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Hospital Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Distance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>RS Sumber Bencana</td>
+                    <td>Jl. Kenangan 45</td>
+                    <td>+62315413</td>
+                    <td>0.3 Km</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>RS Sumber Bencana</td>
+                    <td>Jl. Kenangan 45</td>
+                    <td>+62315413</td>
+                    <td>4.3 Km</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>RS Sumber Bencana</td>
+                    <td>Jl. Kenangan 45</td>
+                    <td>+62315413</td>
+                    <td>5.3 Km</td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
+                    <td>RS Sumber Bencana</td>
+                    <td>Jl. Kenangan 45</td>
+                    <td>+62315413</td>
+                    <td>6.1 Km</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Nearby Hospital End -->
+{% endblock %}
+
+{% block script %}
+<script>
+    var mymap = L.map('mapid').setView([-7.265278, 112.742500], 16);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(mymap);
+
+    
+    L.marker([-7.265278, 112.742500]).addTo(mymap)
+        .bindPopup('Estimation location of the call')
+        .openPopup();
+</script>
+{% endblock %}

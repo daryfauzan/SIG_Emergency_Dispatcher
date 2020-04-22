@@ -46,6 +46,11 @@ def dashboard():
 def call_list():
     return render_template('call_list.html', title='Call List', active_link = activate_link('call_list'))
 
+@app.route('/response/<id>')
+@login_required
+def response(id):
+    return render_template('response.html', title='Response Call', id=id, active_link = activate_link('call_list'))
+
 @app.route('/hospital-list')
 @login_required
 def hospital_list():
