@@ -34,19 +34,19 @@
                 element: 'morris_line',
                 behaveLikeLine: true,
                 data: [
-                    { y: '2006', a: 10, b: 20 },
-                    { y: '2007', a: 65, b: 45 },
-                    { y: '2008', a: 50, b: 40 },
-                    { y: '2009', a: 75, b: 65 },
-                    { y: '2010', a: 50, b: 40 },
-                    { y: '2011', a: 75, b: 65 },
-                    { y: '2012', a: 100, b: 90 }
+                    { y: 'Monday', a: 10},
+                    { y: 'Tuesday', a: 65},
+                    { y: 'Wednesday', a: 50},
+                    { y: 'Thursday', a: 75},
+                    { y: 'Friday', a: 50},
+                    { y: 'Saturday', a: 75},
+                    { y: 'Sunday', a: 100}
                 ],
 
                 xkey: 'y',
-                ykeys: ['a', 'b'],
-                labels: ['Series A', 'Series B'],
-                   lineColors: ['#5969ff', '#ff407b'],
+                ykeys: ['a'],
+                labels: ['Case'],
+                   lineColors: ['#5969ff'],
                      resize: true,
                         gridTextSize: '14px'
             });
@@ -57,22 +57,23 @@
             Morris.Bar({
                 element: 'morris_bar',
                 data: [
-                    { x: '2011 Q1', y: 0 },
-                    { x: '2011 Q2', y: 1 },
-                    { x: '2011 Q3', y: 2 },
-                    { x: '2011 Q4', y: 3 },
-                    { x: '2012 Q1', y: 4 },
-                    { x: '2012 Q2', y: 5 },
-                    { x: '2012 Q3', y: 6 },
-                    { x: '2012 Q4', y: 7 },
-                    { x: '2013 Q1', y: 8 }
+                    { x: 'Monday', y: 3},
+                    { x: 'Tuesday', y: 1 },
+                    { x: 'Wednesday', y: 2 },
+                    { x: 'Thursday', y: 3 },
+                    { x: 'Friday', y: 4 },
+                    { x: 'Saturday', y: 5 },
+                    { x: 'Sunday', y: 6 },
                 ],
+                barRatio: 0.4,
+                xLabelAngle: 35,
+                hideHover: 'auto',
                 xkey: 'x',
                 ykeys: ['y'],
                 labels: ['Y'],
-                   barColors: ['#5969ff'],
-                     resize: true,
-                        gridTextSize: '14px'
+                barColors: ['#5969ff'],
+                    //  resize: true,
+                    //     gridTextSize: '14px'
 
             });
         }
