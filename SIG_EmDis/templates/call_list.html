@@ -29,7 +29,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    {% for c in call %}
+                        <tr>
+                            <td>{{ c['id'] }}</td>
+                            <td>{{ c['phone_num'] }}</td>
+                            <td>{{ c['message'] }}</td>
+                            <td>{{ c['latitude'], c['longitude'] }}</td>
+                            {% if c['status'] == 0 %}
+                                <td><span class="badge-dot badge-danger mr-2"></span>Untreated</td>
+                            {% elif c['status'] == 1 %}
+                                <td><span class="badge-dot badge-warning mr-2"></span>Inprogress</td>
+                            {% else %}
+                                <td><span class="badge-dot badge-success mr-2"></span>Resolved</td>
+                            {% endif %}
+                            <td><a href="{{ url_for('response', id=c['id']) }}" class="btn btn-primary btn-xs"><i class="fas fa-eye pr-2"></i>View</a></td>
+                        </tr>
+                    {% endfor %}
+                    <!-- <tr>
                         <td>Tiger Nixon</td>
                         <td>System Architect</td>
                         <td>Edinburgh</td>
@@ -62,7 +78,7 @@
                         <th>Coordinates</th>
                         <th>Status</th>
                         <th>Action</th>
-                    </tr>
+                    </tr> -->
                 </tfoot>
             </table>
         </div>
