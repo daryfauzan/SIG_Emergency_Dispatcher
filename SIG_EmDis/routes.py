@@ -54,7 +54,16 @@ def call_list():
 @app.route('/response/<id>')
 @login_required
 def response(id):
-    return render_template('response.html', title='Response Call', id=id, active_link = activate_link('call_list'))
+    call = Call.query.filter_by(id=id).first()
+    return render_template('response.html', title='Response Call', id=id, call=call, active_link = activate_link('call_list'))
+
+@app.route('/response-action/<id>')
+@login_required
+def response_action(id):
+    call = Call.query.filter_by(id=id).first()
+    call.status = 1
+    db.session.commit()
+    return redirect(url_for('response', id=id))
 
 @app.route('/hospital-list')
 @login_required

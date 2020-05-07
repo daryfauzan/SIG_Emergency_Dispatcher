@@ -26,13 +26,30 @@
         <div id="response-info">
             <div class="row no-gutters mb-3">
                 <div class="col-2">
+                    Status
+                </div>
+                <div class="col-1">
+                    :
+                </div>
+                <div class="col-12 col-lg-3">
+                    {% if call['status'] == 0 %}
+                        <td><span class="badge-dot badge-danger mr-2"></span>Untreated</td>
+                    {% elif call['status'] == 1 %}
+                        <td><span class="badge-dot badge-warning mr-2"></span>Inprogress</td>
+                    {% else %}
+                        <td><span class="badge-dot badge-success mr-2"></span>Resolved</td>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row no-gutters mb-3">
+                <div class="col-2">
                     Call ID
                 </div>
                 <div class="col-1">
                     :
                 </div>
                 <div class="col-12 col-lg-3">
-                    42544
+                    {{ call['id'] }}
                 </div>
             </div>
             <div class="row no-gutters mb-3">
@@ -43,7 +60,7 @@
                     :
                 </div>
                 <div class="col-12 col-lg-3">
-                    +62845435481
+                    {{ call['phone_num'] }}
                 </div>
             </div>
             <div class="row no-gutters mb-3">
@@ -54,24 +71,31 @@
                     :
                 </div>
                 <div class="col-12 col-lg-3">
-                    21.121, -56.28
+                    {{call['latitude']}}, {{ call['longitude'] }}
                 </div>
             </div>
             <div class="row no-gutters mb-3">
                 <div class="col-2">
-                    Additional Notes
+                    Message
                 </div>
                 <div class="col-1">
                     :
                 </div>
                 <div class="col-12 col-lg-3">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque, sapiente fugit qui ratione non
-                    aliquam maxime esse iure sequi quo dolores at exercitationem nihil! Expedita ea vero necessitatibus
-                    tempore laudantium ducimus iusto, ut hic dicta! Veniam illo soluta asperiores earum molestias hic
-                    autem nulla! Pariatur tenetur odit explicabo labore possimus!
+                    {{ call['message'] }}
                 </div>
             </div>
-
+            <div class="row no-gutters my-4">
+                {% if call['status'] == 0 %}
+                <div class="col">
+                    <a href="{{url_for('response_action', id=call['id'])}}" class="btn btn-primary">Response</a>
+                </div>
+                {% elif call['status'] == 1 %}
+                <div class="col">
+                    <a href="#" class="btn btn-brand">Resolved</a>
+                </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
@@ -144,13 +168,15 @@
 
 {% block script %}
 <script>
-    var mymap = L.map('mapid').setView([-7.265278, 112.742500], 16);
+    lat = {{ call['latitude'] }};
+    long = {{ call['longitude'] }}
+    var mymap = L.map('mapid').setView([lat, long], 16);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(mymap);
 
     
-    L.marker([-7.265278, 112.742500]).addTo(mymap)
+    L.marker([lat, long]).addTo(mymap)
         .bindPopup('Estimation location of the call')
         .openPopup();
 </script>
