@@ -4,7 +4,8 @@ from SIG_EmDis import app, db
 from SIG_EmDis.forms import LoginForm
 from SIG_EmDis.models import Dispatcher, Call, Hospital
 import json
-
+import os
+from datetime import datetime
 
 def activate_link(link):
     page = {'dashboard':None, 'call_list':None, 'hospital_list':None}
@@ -62,13 +63,15 @@ def response(id):
 def response_action(id):
     call = Call.query.filter_by(id=id).first()
     call.status = 1
+    call.time_response = datetime.now()
     db.session.commit()
     return redirect(url_for('response', id=id))
 
 @app.route('/hospital-list')
 @login_required
 def hospital_list():
-    return render_template('hospital_list.html', title='Hospital List', active_link = activate_link('hospital_list'))
+    hospitals = Hospital.query.all()
+    return render_template('hospital_list.html', title='Hospital List', active_link = activate_link('hospital_list'), hospitals=hospitals)
 
 @app.route('/reset')
 def reset():
@@ -83,15 +86,20 @@ def reset():
     db.session.add(dis_3)
     db.session.commit()
 
-    hosp = Hospital(
-        name = 'Rumah Sakit Adi Husada Kapasari',
-        address = 'Jl. Kapasari No.97-101, Kapasan, Kec. Simokerto, Kota SBY, Jawa Timur 60141',
-        phone_num = '(031) 3764555',
-        latitude = -7.24255,
-        longitude = 112.751865
-    )
+    import csv 
 
-    db.session.add(hosp)
+    path = os.path.join(app.root_path, 'hospital-list.csv')
+    with open(path, 'r') as csv_file:
+        read_csv = csv.reader(csv_file)
+        for row in list(read_csv)[1:]:
+            hosp = Hospital(
+                name=row[0],
+                address=row[1],
+                phone_num=row[2],
+                latitude=row[3],
+                longitude=row[4],
+            )
+            db.session.add(hosp)
     db.session.commit()
 
     return redirect(url_for('login'))

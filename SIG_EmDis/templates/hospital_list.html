@@ -22,21 +22,21 @@
                     <tr>
                         <th>No</th>
                         <th>Hospital Name</th>
-                        <th>Address</th>
+                        <th style="width: 30%;">Address</th>
                         <th>Phone Number</th>
                         <th>Coordinates</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for hospital in hospitals %}
                     <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>2011/04/25</td>
+                        <td>{{ hospital['id'] }}</td>
+                        <td>{{ hospital['name'] }}</td>
+                        <td>{{ hospital['address'] }}</td>
+                        <td>{{ hospital['phone_num'] }}</td>
+                        <td>{{  hospital['latitude'], hospital['longitude'] }}</td>
                     </tr>
+                    {% endfor %}
                 </tbody>
                 <tfoot>
                     <tr>
@@ -45,7 +45,6 @@
                         <th>Message</th>
                         <th>Coordinates</th>
                         <th>Status</th>
-                        <th>Action</th>
                     </tr>
                 </tfoot>
             </table>
