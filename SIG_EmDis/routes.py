@@ -56,7 +56,27 @@ def call_list():
 @login_required
 def response(id):
     call = Call.query.filter_by(id=id).first()
-    return render_template('response.html', title='Response Call', id=id, call=call, active_link = activate_link('call_list'))
+    if not call:
+        return redirect(url_for('dashboard'))
+
+    from math import radians, cos, sin, asin, sqrt
+
+    def haversine(lon1, lat1, lon2, lat2):
+        lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+        dlon = lon2 - lon1 
+        dlat = lat2 - lat1 
+        a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+        c = 2 * asin(sqrt(a)) 
+        r = 6371
+        return c * r
+    def dist_key(e):
+        return e[3]
+
+    hospitals = Hospital.query.all()
+    hosps_distance = [(hospital.name, hospital.address, hospital.phone_num, round(haversine(hospital.longitude,hospital.latitude, call.longitude, call.latitude),3), hospital.id , hospital.longitude, hospital.latitude) for hospital in list(hospitals)]
+    hosps_distance.sort(key=dist_key)
+    hosps_distance = enumerate(hosps_distance, 1)
+    return render_template('response.html', title='Response Call', id=id, call=call, active_link = activate_link('call_list'), hospitals = list(hosps_distance)[:10])
 
 @app.route('/response-action/<id>')
 @login_required
@@ -64,6 +84,22 @@ def response_action(id):
     call = Call.query.filter_by(id=id).first()
     call.status = 1
     call.time_response = datetime.now()
+    db.session.commit()
+    return redirect(url_for('response', id=id))
+
+@app.route('/resolve-action/', methods=["POST","GET"])
+@login_required
+def resolve_action():
+    id = request.args.get('call_id')
+    id_rs = request.args.get('hosp')
+    if not (id and id_rs):
+        return redirect(url_for('dashboard'))
+    print(id_rs)
+    call = Call.query.filter_by(id=id).first()
+    call.status = 2
+    call.time_completed = datetime.now()
+    hospital_id = Hospital.query.filter_by(id=id_rs).first().id
+    call.hospital = hospital_id
     db.session.commit()
     return redirect(url_for('response', id=id))
 
@@ -131,7 +167,7 @@ def dummy_call():
         phone_num = call_info['phone_num'],
         message = call_info['message'],
         pic = int(call_info['pic_id']),
-        hospital = 1
+        hospital = 0
     )
 
 

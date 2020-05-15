@@ -20,18 +20,20 @@
             <div class="card-body">
                 <div class="list-group">
                     {% for c in call %}
-                        <a href="{{ url_for('response', id=c['id']) }}" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">Kasus {{ c['id'] }}</h5>
-                                <small class="text-muted">{{ c['time_placed'].strftime("%d %b %Y. %H:%M") }}</small>
-                            </div>
-                            <p class="mb-1">{{ c['message'] }}</p>
-                            {% if c['status'] == 0 %}
-                                <small class="text-danger">Untreated</small>
-                            {% else %}
-                                <small class="text-warning">Inprogress</small>
-                            {% endif %}
-                        </a>
+                        {% if c.status != 2 %}
+                            <a href="{{ url_for('response', id=c['id']) }}" class="list-group-item list-group-item-action flex-column align-items-start" id="{{ c['status'] }}">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">Kasus {{ c['id'] }}</h5>
+                                    <small class="text-muted">{{ c['time_placed'].strftime("%d %b %Y. %H:%M") }}</small>
+                                </div>
+                                <p class="mb-1">{{ c['message'] }}</p>
+                                {% if c['status'] == 0 %}
+                                    <small class="text-danger">Untreated</small>
+                                {% else %}
+                                    <small class="text-warning">Inprogress</small>
+                                {% endif %}
+                            </a>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
