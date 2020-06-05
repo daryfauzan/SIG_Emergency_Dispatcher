@@ -140,10 +140,12 @@ def reset():
 
     return redirect(url_for('login'))
 
+@app.route('/call-success')
+def call_success():
+    return render_template('call_success.html')
 
-
-@app.route('/dummy-call', methods=["POST","GET"])
-def dummy_call():
+@app.route('/post-call', methods=["POST","GET"])
+def post_call():
 
     def curr_call(dis):
         return dis[1]
@@ -177,4 +179,4 @@ def dummy_call():
     db.session.add(call)
     db.session.commit()
 
-    return redirect(url_for('login'))
+    return redirect(url_for('call_success'))
